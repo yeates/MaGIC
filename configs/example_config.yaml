@@ -1,0 +1,42 @@
+general:
+  config: configs/stable-diffusion/v2-inpainting-inference.yaml
+  sd_ckpt: checkpoints/512-inpainting-ema.ckpt
+  vae_ckpt: None
+  sampler: ddim
+  rand_seed: 2023
+  save_path: examples/mm_completion/output
+infer:
+  batch_size: 1 # for gpu memory sake
+  n_samples: 1
+  fixed_resolution: False
+  steps: 50
+  init_C: 4
+  down_factor: 8
+  classifier_free_guidance: 7.5
+  caption_path: examples/captions_coco_val2017.json
+  data:
+    img_path: examples/mm_completion/img
+    mask_path: examples/mm_completion/mask
+  auxiliary:
+    cond_weight: 1.0
+    sketch_path: examples/mm_completion/img
+    sketch_ckpt: checkpoints/tau_net_sketch.pth
+    sketch_inp_type: image  # `image` means RGB image input
+    canny_path: examples/mm_completion/img
+    canny_ckpt: checkpoints/tau_net_canny.pth
+    canny_inp_type: image
+    depth_path: examples/mm_completion/depth
+    depth_ckpt: checkpoints/models/tau_net_depth.pth
+    depth_inp_type: depth # `depth` means depth map input
+    seg_path: examples/mm_completion/seg
+    seg_ckpt: checkpoints/tau_net_seg.pth
+    seg_inp_type: seg # `seg` means segmentation map input
+  load_prompt_text: True
+  CMB:  # consistent modality blending
+    enable: True
+    P: 30
+    Q: 5
+neg_prompt: 'longbody, lowres, bad anatomy, bad hands, missing fingers, \
+              extra digit, fewer digits, cropped, worst quality, low quality'
+
+
